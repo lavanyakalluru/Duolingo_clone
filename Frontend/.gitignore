@@ -45,7 +45,7 @@ Backend/.env
 Frontend/node_modules/
 Frontend/.next/
 
-.env
-*.sqlite
+venv/
 __pycache__/
 *.pyc
+.env
