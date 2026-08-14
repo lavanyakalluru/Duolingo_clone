@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+:root {
+  --duo-green: #58cc02;
+  --duo-green-dark: #46a302;
+  --duo-green-darker: #58a700;
+  --duo-teal: #00cd9c;
+  --duo-teal-dark: #00a77d;
+  --duo-blue: #1cb0f6;
+  --duo-blue-dark: #1899d6;
+  --duo-purple: #ce82ff;
+  --duo-purple-banner: #ce82ff;
+  --duo-bg-dark: #131f24;
+  --duo-bg-card: #202f36;
+  --duo-border: #37464f;
+  --duo-text: #4b4b4b;
+  --duo-text-muted: #afafaf;
+  --duo-text-light: #777777;
+  --duo-gray-border: #e5e5e5;
+  --duo-gray-inactive: #52656d;
+  --duo-node-inactive: #37464f;
+}
+
+@theme inline {
+  --color-duo-green: var(--duo-green);
+  --color-duo-green-dark: var(--duo-green-dark);
+  --color-duo-green-darker: var(--duo-green-darker);
+  --color-duo-teal: var(--duo-teal);
+  --color-duo-teal-dark: var(--duo-teal-dark);
+  --color-duo-blue: var(--duo-blue);
+  --color-duo-blue-dark: var(--duo-blue-dark);
+  --color-duo-purple: var(--duo-purple);
+  --color-duo-purple-banner: var(--duo-purple-banner);
+  --color-duo-bg-dark: var(--duo-bg-dark);
+  --color-duo-bg-card: var(--duo-bg-card);
+  --color-duo-border: var(--duo-border);
+  --color-duo-text: var(--duo-text);
+  --color-duo-text-muted: var(--duo-text-muted);
+  --color-duo-text-light: var(--duo-text-light);
+  --color-duo-gray-border: var(--duo-gray-border);
+  --color-duo-gray-inactive: var(--duo-gray-inactive);
+  --color-duo-node-inactive: var(--duo-node-inactive);
+  --font-sans: var(--font-nunito);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-nunito), "Nunito", ui-rounded, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
