@@ -634,6 +634,7 @@ export function LessonView({ lesson }: LessonViewProps) {
   if (completion) {
     return (
       <LessonCompletion
+        completed={true}
         xpEarned={completion.xp_earned}
         accuracy={Math.round(
           (completion.correct_answers / Math.max(completion.total_questions, 1)) * 100,
