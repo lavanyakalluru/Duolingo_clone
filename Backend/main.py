@@ -1,15 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .database import Base, engine, migrate_existing_database
-from . import models
-from .seed import reset_legacy_demo_progress, upgrade_seed_lesson_titles
-from .routes.user import router as user_router
-from .routes.path import router as path_router
-from .routes.lessons import router as lessons_router
-from .routes.gamification import router as gamification_router
-from .routes.profile import router as profile_router
-from .routes.leaderboard import router as leaderboard_router
+from app.database import Base, engine, migrate_existing_database
+from app import models
+from app.seed import reset_legacy_demo_progress, upgrade_seed_lesson_titles
+from app.routes.user import router as user_router
+from app.routes.path import router as path_router
+from app.routes.lessons import router as lessons_router
+from app.routes.gamification import router as gamification_router
+from app.routes.profile import router as profile_router
+from app.routes.leaderboard import router as leaderboard_router
 Base.metadata.create_all(bind=engine)
 migrate_existing_database()
 upgrade_seed_lesson_titles()
@@ -23,10 +23,8 @@ app = FastAPI(
 )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
