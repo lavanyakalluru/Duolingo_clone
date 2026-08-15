@@ -100,7 +100,8 @@ export type NextLessonResponse = {
 export type AnswerResponse = {
   correct: boolean;
   hearts: number;
-  message: string;
+  message?: string;
+  correct_answer?: string;
 };
 
 export type LessonCompleteResponse = {

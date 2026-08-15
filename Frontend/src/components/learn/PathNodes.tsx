@@ -28,11 +28,21 @@ type PathNode = {
 
 function buildUnitPath(skills: PathSkill[]): PathNode[] {
   const nodes: PathNode[] = [];
-  const startSkillId = skills.find((skill) => skill.status === "available")?.id;
+
+  if (skills.length === 0) {
+    return nodes;
+  }
+
+  const startSkillId =
+    skills.find(
+      (skill) => skill.status === "available",
+    )?.id ?? null;
 
   skills.forEach((skill, index) => {
     const status = skill.status;
-    const isStart = skill.id === startSkillId;
+    const isStart =
+      startSkillId !== null &&
+      skill.id === startSkillId;
 
     nodes.push({
       id: `skill-${skill.id}`,
@@ -46,35 +56,50 @@ function buildUnitPath(skills: PathSkill[]): PathNode[] {
       showOwl: isStart,
     });
 
-    // A single reward chest keeps the six-lesson route readable and matches
-    // the learning-tree cadence rather than placing a chest after every node.
+    // Chest after the third skill,
+    // only when a fourth skill exists.
     if (index === 2) {
       const nextSkill = skills[index + 1];
-      const chestLocked = nextSkill.status === "locked";
 
-      nodes.push({
-        id: `chest-after-${skill.id}`,
-        title: nextSkill.title,
-        type: "chest",
-        status: chestLocked ? "locked" : status === "completed" ? "completed" : "available",
-        offset: 0,
-      });
+      if (nextSkill) {
+        nodes.push({
+          id: `chest-after-${skill.id}`,
+          title: nextSkill.title,
+          type: "chest",
+          status:
+            nextSkill.status === "locked"
+              ? "locked"
+              : skill.status === "completed"
+                ? "completed"
+                : "available",
+          offset: 0,
+        });
+      }
     }
   });
 
-  const allSkillsCompleted = skills.every((skill) => skill.status === "completed");
+  const allSkillsCompleted =
+    skills.length > 0 &&
+    skills.every(
+      (skill) => skill.status === "completed",
+    );
 
   nodes.push({
     id: "unit-trophy",
     title: "Unit complete",
     type: "trophy",
-    status: allSkillsCompleted ? "completed" : "locked",
+    status: allSkillsCompleted
+      ? "completed"
+      : "locked",
     offset: 0,
   });
 
   return nodes.map((node, index) => ({
     ...node,
-    offset: PATH_OFFSETS[index % PATH_OFFSETS.length],
+    offset:
+      PATH_OFFSETS[
+        index % PATH_OFFSETS.length
+      ],
   }));
 }
 
@@ -180,8 +205,8 @@ function PathNodeButton({
   const isLesson = node.type === "lesson";
   const nodeSize = isStart ? 74 : 62;
   const skill = node.skill;
-  const lessonCount = skill?.lesson_count ?? 2;
-  const completedLessons = skill?.completed_lessons ?? skill?.crowns ?? 0;
+  const lessonCount = skill?.lesson_count ?? 0;
+const completedLessons = skill?.completed_lessons ?? 0;
 
   const handleClick = () => {
     if (isChest || isTrophy) return;
@@ -257,11 +282,11 @@ function PathNodeButton({
   );
 
   const popupSubtitle =
-    isLocked && skill
-      ? "Complete all levels above to unlock this!"
-      : skill
-        ? `Lesson ${Math.min(completedLessons + 1, lessonCount)} of ${lessonCount}`
-        : "";
+  isLocked && skill
+    ? "Complete all levels above to unlock this!"
+    : skill
+      ? `${completedLessons} / ${lessonCount} lessons completed`
+      : "";
 
   const popupButton =
     isLocked 
@@ -299,13 +324,14 @@ function PathNodeButton({
       )}
 
       {isLesson && skill ? (
-        <SkillProgressRing
-          progress={skill.progress}
-          crowns={skill.crowns}
-          lessonCount={lessonCount}
-          status={ringStatus(node.status)}
-          size={nodeSize}
-        >
+       <SkillProgressRing
+       progress={skill.progress}
+       crowns={skill.crowns}
+       completedLessons={completedLessons}
+       lessonCount={lessonCount}
+       status={ringStatus(node.status)}
+       size={nodeSize}
+     >
           {button}
         </SkillProgressRing>
       ) : (

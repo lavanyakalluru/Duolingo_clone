@@ -16,7 +16,8 @@ type LessonViewProps = {
 
 type FeedbackState = {
   correct: boolean;
-  message: string;
+  message?: string;
+  correct_answer?: string;
 } | null;
 
 const EXERCISE_BADGES: Record<
@@ -574,6 +575,7 @@ export function LessonView({ lesson }: LessonViewProps) {
       setFeedback({
         correct: result.correct,
         message: result.message,
+        correct_answer: result.correct_answer as string,
       });
       if (result.correct) {
         setCorrectAnswers((count) => count + 1);
@@ -787,13 +789,13 @@ export function LessonView({ lesson }: LessonViewProps) {
         <div>
           <h2
             className={[
-              "text-[28px] font-extrabold leading-none",
+              "text-[20px] font-extrabold leading-none",
               feedback.correct
                 ? "text-[#78d51b]"
                 : "text-[#ff4b4b]",
             ].join(" ")}
           >
-            {feedback.correct ? "Awesome!" : "Incorrect"}
+            {feedback.correct ? "Awesome!" : "Not quite right"}
           </h2>
 
           {/* Feedback options */}
@@ -803,7 +805,7 @@ export function LessonView({ lesson }: LessonViewProps) {
               type="button"
               className="flex items-center gap-2 text-[14px] font-extrabold uppercase tracking-wide text-[#6fa52d] transition-colors hover:text-[#8acb3b]"
             >
-              <span className="text-lg">Z</span>
+              <span className="text-lg">😴</span>
               <span>Too easy</span>
             </button>
 
@@ -811,7 +813,7 @@ export function LessonView({ lesson }: LessonViewProps) {
               type="button"
               className="flex items-center gap-2 text-[14px] font-extrabold uppercase tracking-wide text-[#6fa52d] transition-colors hover:text-[#8acb3b]"
             >
-              <span className="text-xl">△</span>
+              <span className="text-xl">🤯</span>
               <span>Too difficult</span>
             </button>
 
@@ -819,18 +821,20 @@ export function LessonView({ lesson }: LessonViewProps) {
               type="button"
               className="flex items-center gap-2 text-[14px] font-extrabold uppercase tracking-wide text-[#6fa52d] transition-colors hover:text-[#8acb3b]"
             >
-              <span className="text-xl">⚑</span>
+              <span className="text-xl">🚩</span>
               <span>Report</span>
             </button>
 
           </div>
 
           {/* Wrong answer message */}
-          {!feedback.correct && feedback.message && (
-            <p className="mt-2 text-sm font-bold text-[#ffb3b3]">
-              {feedback.message}
+          {!feedback.correct && (
+          <div className="mt-2">
+            <p className="text-sm font-extrabold text-[#6fa52d]">
+              Correct solution:  {feedback.correct_answer}
             </p>
-          )}
+          </div>
+        )}
         </div>
       </div>
     ) : (

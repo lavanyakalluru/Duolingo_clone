@@ -16,10 +16,6 @@ def mark_lesson_completed(
     correct_answers: int,
     total_questions: int,
 ):
-    """
-    Mark a lesson as completed.
-    """
-
     progress = (
         db.query(UserLessonProgress)
         .filter(
@@ -50,6 +46,8 @@ def mark_lesson_completed(
 
         db.add(progress)
 
+    db.flush()
+
     return progress
 
 
@@ -58,24 +56,19 @@ def update_skill_progress(
     user_id: int,
     skill: Skill,
 ):
-    """
-    Recalculate the user's progress for a skill
-    based on completed lessons.
-    """
-
     total_lessons = len(skill.lessons)
 
     if total_lessons == 0:
         return None
 
+    lesson_ids = [lesson.id for lesson in skill.lessons]
+
     completed_lessons = (
         db.query(UserLessonProgress)
         .filter(
             UserLessonProgress.user_id == user_id,
+            UserLessonProgress.lesson_id.in_(lesson_ids),
             UserLessonProgress.completed.is_(True),
-            UserLessonProgress.lesson_id.in_(
-                [lesson.id for lesson in skill.lessons]
-            ),
         )
         .count()
     )
@@ -84,9 +77,7 @@ def update_skill_progress(
         completed_lessons / total_lessons * 100
     )
 
-    completed = progress_percentage == 100
-
-    crowns = completed_lessons
+    skill_completed = completed_lessons >= total_lessons
 
     user_skill_progress = (
         db.query(UserSkillProgress)
@@ -98,16 +89,16 @@ def update_skill_progress(
     )
 
     if not user_skill_progress:
-
         user_skill_progress = UserSkillProgress(
             user_id=user_id,
             skill_id=skill.id,
         )
-
         db.add(user_skill_progress)
 
     user_skill_progress.progress = progress_percentage
-    user_skill_progress.completed = completed
-    user_skill_progress.crowns = crowns
+    user_skill_progress.completed = skill_completed
+    user_skill_progress.crowns = completed_lessons
+
+    db.flush()
 
     return user_skill_progress

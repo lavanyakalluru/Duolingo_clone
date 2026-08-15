@@ -37,21 +37,564 @@ export function ChestIcon({ className = "" }: { className?: string }) {
 
 export function DuoOwl({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 120 140" fill="none" className={className} aria-hidden="true">
-      <ellipse cx="60" cy="120" rx="40" ry="8" fill="#37464F" />
-      <ellipse cx="60" cy="75" rx="45" ry="50" fill="#58CC02" />
-      <ellipse cx="60" cy="80" rx="32" ry="38" fill="#89E219" />
-      <ellipse cx="38" cy="70" rx="18" ry="28" fill="#58CC02" transform="rotate(-15 38 70)" />
-      <ellipse cx="82" cy="70" rx="18" ry="28" fill="#58CC02" transform="rotate(15 82 70)" />
-      <ellipse cx="48" cy="65" rx="14" ry="16" fill="white" />
-      <ellipse cx="72" cy="65" rx="14" ry="16" fill="white" />
-      <ellipse cx="50" cy="68" rx="7" ry="8" fill="#4B4B4B" />
-      <ellipse cx="74" cy="68" rx="7" ry="8" fill="#4B4B4B" />
-      <circle cx="52" cy="64" r="2.5" fill="white" />
-      <circle cx="76" cy="64" r="2.5" fill="white" />
-      <path d="M55 88L60 98L65 88Z" fill="#FFC800" />
-      <ellipse cx="48" cy="108" rx="8" ry="5" fill="#FFC800" />
-      <ellipse cx="72" cy="108" rx="8" ry="5" fill="#FFC800" />
+    <svg
+      viewBox="0 0 120 140"
+      fill="none"
+      className={`duo-owl ${className}`}
+      aria-hidden="true"
+    >
+      {/* Shadow */}
+      <ellipse
+        cx="60"
+        cy="120"
+        rx="40"
+        ry="8"
+        fill="#37464F"
+        className="duo-shadow"
+      />
+
+      {/* Character */}
+      <g className="duo-character">
+        {/* LEFT WING */}
+        <g className="duo-wing-left">
+          <ellipse
+            cx="38"
+            cy="70"
+            rx="18"
+            ry="28"
+            fill="#58CC02"
+          />
+        </g>
+
+        {/* RIGHT WING */}
+        <g className="duo-wing-right">
+          <ellipse
+            cx="82"
+            cy="70"
+            rx="18"
+            ry="28"
+            fill="#58CC02"
+          />
+        </g>
+
+        {/* Main body */}
+        <ellipse
+          cx="60"
+          cy="75"
+          rx="45"
+          ry="50"
+          fill="#58CC02"
+        />
+
+        {/* Belly */}
+        <ellipse
+          cx="60"
+          cy="80"
+          rx="32"
+          ry="38"
+          fill="#89E219"
+        />
+
+        {/* Face */}
+        <g className="duo-face">
+          {/* Left eye white */}
+          <ellipse
+            cx="48"
+            cy="65"
+            rx="14"
+            ry="16"
+            fill="white"
+          />
+
+          {/* Right eye white */}
+          <ellipse
+            cx="72"
+            cy="65"
+            rx="14"
+            ry="16"
+            fill="white"
+          />
+
+          {/* Left pupil */}
+          <ellipse
+            cx="50"
+            cy="68"
+            rx="7"
+            ry="8"
+            fill="#4B4B4B"
+          />
+
+          {/* Right pupil */}
+          <ellipse
+            cx="74"
+            cy="68"
+            rx="7"
+            ry="8"
+            fill="#4B4B4B"
+          />
+
+          {/* Eye highlights */}
+          <circle
+            cx="52"
+            cy="64"
+            r="2.5"
+            fill="white"
+          />
+
+          <circle
+            cx="76"
+            cy="64"
+            r="2.5"
+            fill="white"
+          />
+
+          {/* Happy closed eyes */}
+          <g className="duo-happy-eyes">
+            <path
+              d="M38 66 Q48 75 58 66"
+              stroke="#4B4B4B"
+              strokeWidth="4"
+              strokeLinecap="round"
+              fill="none"
+            />
+
+            <path
+              d="M62 66 Q72 75 82 66"
+              stroke="#4B4B4B"
+              strokeWidth="4"
+              strokeLinecap="round"
+              fill="none"
+            />
+          </g>
+        </g>
+
+        {/* Beak */}
+        <path
+          d="M55 88L60 98L65 88Z"
+          fill="#FFC800"
+          className="duo-beak"
+        />
+
+        {/* Left foot */}
+        <ellipse
+          cx="48"
+          cy="108"
+          rx="8"
+          ry="5"
+          fill="#FFC800"
+          className="duo-foot-left"
+        />
+
+        {/* Right foot */}
+        <ellipse
+          cx="72"
+          cy="108"
+          rx="8"
+          ry="5"
+          fill="#FFC800"
+          className="duo-foot-right"
+        />
+      </g>
+
+      <style>
+        {`
+          .duo-owl {
+            overflow: visible;
+          }
+
+          /*
+           * MAIN IDLE ANIMATION
+           *
+           * Duo:
+           * - settles down
+           * - squashes slightly
+           * - jumps upward
+           * - stretches
+           * - settles again
+           */
+          .duo-character {
+            transform-box: fill-box;
+            transform-origin: center bottom;
+
+            animation:
+              duo-idle 2.6s ease-in-out infinite;
+          }
+
+          /*
+           * LEFT WING
+           */
+          .duo-wing-left {
+            transform-box: fill-box;
+            transform-origin: right center;
+
+            animation:
+              duo-left-wing 2.6s ease-in-out infinite;
+          }
+
+          /*
+           * RIGHT WING
+           */
+          .duo-wing-right {
+            transform-box: fill-box;
+            transform-origin: left center;
+
+            animation:
+              duo-right-wing 2.6s ease-in-out infinite;
+          }
+
+          /*
+           * FACE
+           */
+          .duo-face {
+            transform-box: fill-box;
+            transform-origin: center;
+
+            animation:
+              duo-face-move 2.6s ease-in-out infinite;
+          }
+
+          /*
+           * HAPPY CLOSED EYES
+           *
+           * Normally hidden.
+           * They appear briefly during the happy bounce.
+           */
+          .duo-happy-eyes {
+            opacity: 0;
+
+            transform-box: fill-box;
+            transform-origin: center;
+
+            animation:
+              duo-happy-eyes 2.6s ease-in-out infinite;
+          }
+
+          /*
+           * BEAK
+           */
+          .duo-beak {
+            transform-box: fill-box;
+            transform-origin: center;
+
+            animation:
+              duo-beak 2.6s ease-in-out infinite;
+          }
+
+          /*
+           * FEET
+           */
+          .duo-foot-left,
+          .duo-foot-right {
+            transform-box: fill-box;
+            transform-origin: center;
+          }
+
+          .duo-foot-left {
+            animation:
+              duo-foot-left 2.6s ease-in-out infinite;
+          }
+
+          .duo-foot-right {
+            animation:
+              duo-foot-right 2.6s ease-in-out infinite;
+          }
+
+          /*
+           * SHADOW
+           */
+          .duo-shadow {
+            transform-box: fill-box;
+            transform-origin: center;
+
+            animation:
+              duo-shadow 2.6s ease-in-out infinite;
+          }
+
+
+          /* =========================================
+             BODY
+             ========================================= */
+
+          @keyframes duo-idle {
+            0% {
+              transform:
+                translateY(0)
+                scaleX(1)
+                scaleY(1);
+            }
+
+            12% {
+              transform:
+                translateY(2px)
+                scaleX(1.025)
+                scaleY(0.975);
+            }
+
+            25% {
+              transform:
+                translateY(-7px)
+                scaleX(0.97)
+                scaleY(1.04);
+            }
+
+            38% {
+              transform:
+                translateY(-9px)
+                scaleX(0.95)
+                scaleY(1.06);
+            }
+
+            52% {
+              transform:
+                translateY(1px)
+                scaleX(1.03)
+                scaleY(0.97);
+            }
+
+            68% {
+              transform:
+                translateY(0)
+                scaleX(1)
+                scaleY(1);
+            }
+
+            100% {
+              transform:
+                translateY(0)
+                scaleX(1)
+                scaleY(1);
+            }
+          }
+
+
+          /* =========================================
+             WINGS
+             ========================================= */
+
+          @keyframes duo-left-wing {
+            0% {
+              transform: rotate(0deg) translateX(0);
+            }
+
+            12% {
+              transform: rotate(-4deg) translateX(-1px);
+            }
+
+            25% {
+              transform: rotate(-18deg) translateX(-4px);
+            }
+
+            38% {
+              transform: rotate(-24deg) translateX(-5px);
+            }
+
+            52% {
+              transform: rotate(-8deg) translateX(-2px);
+            }
+
+            68% {
+              transform: rotate(0deg) translateX(0);
+            }
+
+            100% {
+              transform: rotate(0deg) translateX(0);
+            }
+          }
+
+          @keyframes duo-right-wing {
+            0% {
+              transform: rotate(0deg) translateX(0);
+            }
+
+            12% {
+              transform: rotate(4deg) translateX(1px);
+            }
+
+            25% {
+              transform: rotate(18deg) translateX(4px);
+            }
+
+            38% {
+              transform: rotate(24deg) translateX(5px);
+            }
+
+            52% {
+              transform: rotate(8deg) translateX(2px);
+            }
+
+            68% {
+              transform: rotate(0deg) translateX(0);
+            }
+
+            100% {
+              transform: rotate(0deg) translateX(0);
+            }
+          }
+
+
+          /* =========================================
+             FACE
+             ========================================= */
+
+          @keyframes duo-face-move {
+            0%,
+            100% {
+              transform: translateY(0);
+            }
+
+            25% {
+              transform: translateY(-2px);
+            }
+
+            40% {
+              transform: translateY(-3px);
+            }
+
+            55% {
+              transform: translateY(0);
+            }
+          }
+
+
+          /* =========================================
+             HAPPY EYES
+             ========================================= */
+
+          @keyframes duo-happy-eyes {
+            0%,
+            20% {
+              opacity: 0;
+            }
+
+            27% {
+              opacity: 1;
+            }
+
+            43% {
+              opacity: 1;
+            }
+
+            50%,
+            100% {
+              opacity: 0;
+            }
+          }
+
+
+          /* =========================================
+             BEAK
+             ========================================= */
+
+          @keyframes duo-beak {
+            0%,
+            100% {
+              transform: translateY(0) scale(1);
+            }
+
+            27% {
+              transform: translateY(-1px) scale(1.05);
+            }
+
+            42% {
+              transform: translateY(-2px) scale(1.08);
+            }
+
+            55% {
+              transform: translateY(0) scale(1);
+            }
+          }
+
+
+          /* =========================================
+             FEET
+             ========================================= */
+
+          @keyframes duo-foot-left {
+            0%,
+            100% {
+              transform: rotate(0deg) translateY(0);
+            }
+
+            25% {
+              transform: rotate(-5deg) translateY(-2px);
+            }
+
+            45% {
+              transform: rotate(-8deg) translateY(-3px);
+            }
+
+            60% {
+              transform: rotate(0deg) translateY(0);
+            }
+          }
+
+          @keyframes duo-foot-right {
+            0%,
+            100% {
+              transform: rotate(0deg) translateY(0);
+            }
+
+            25% {
+              transform: rotate(5deg) translateY(-2px);
+            }
+
+            45% {
+              transform: rotate(8deg) translateY(-3px);
+            }
+
+            60% {
+              transform: rotate(0deg) translateY(0);
+            }
+          }
+
+
+          /* =========================================
+             SHADOW
+             ========================================= */
+
+          @keyframes duo-shadow {
+            0%,
+            100% {
+              transform: scaleX(1);
+              opacity: 0.45;
+            }
+
+            25% {
+              transform: scaleX(0.8);
+              opacity: 0.28;
+            }
+
+            40% {
+              transform: scaleX(0.72);
+              opacity: 0.22;
+            }
+
+            55% {
+              transform: scaleX(0.95);
+              opacity: 0.4;
+            }
+          }
+
+
+          /* =========================================
+             ACCESSIBILITY
+             ========================================= */
+
+          @media (prefers-reduced-motion: reduce) {
+            .duo-character,
+            .duo-wing-left,
+            .duo-wing-right,
+            .duo-face,
+            .duo-happy-eyes,
+            .duo-beak,
+            .duo-foot-left,
+            .duo-foot-right,
+            .duo-shadow {
+              animation: none;
+            }
+          }
+        `}
+      </style>
     </svg>
   );
 }

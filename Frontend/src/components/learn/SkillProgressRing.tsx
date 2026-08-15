@@ -1,6 +1,7 @@
 type SkillProgressRingProps = {
   progress: number;
   crowns: number;
+  completedLessons: number;
   lessonCount: number;
   status: "active" | "locked" | "completed";
   size: number;
@@ -17,6 +18,7 @@ const RING_COLORS = {
 export function SkillProgressRing({
   progress,
   crowns,
+  completedLessons,
   lessonCount,
   status,
   size,
@@ -213,8 +215,7 @@ export function SkillProgressRing({
                 : "text-white",
             ].join(" ")}
           >
-            {crowns}/{lessonCount}
-          </span>
+{completedLessons}/{lessonCount}          </span>
         </div>
       )}
     </div>
